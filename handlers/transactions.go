@@ -5,27 +5,29 @@ import (
 	"fundstransfer/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func Transact(c *gin.Context) {
-	var createTransaction CreateTransaction
-	if err := c.ShouldBindJSON(&createTransaction); err != nil {
+	var t Transaction
+	if err := c.ShouldBindJSON(&t); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := createTransaction.CreateTransaction(); err != nil {
+	userId, _ := strconv.Atoi(c.Param("user_id"))
+	if err := t.CreateTransaction(userId); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	c.String(http.StatusOK, "Transaction processed")
 }
 
-func (t *CreateTransaction) CreateTransaction() error {
+func (t *Transaction) CreateTransaction(userId int) error {
 	var from, to models.Wallet
-	if err := from.GetWalletForUser(t.From); err != nil {
+	if err := from.GetWalletForUser(userId); err != nil {
 		return err
 	}
-	if err := to.GetWalletForUser(t.To); err != nil {
+	if err := to.GetWalletForMobileNumber(t.To); err != nil {
 		return err
 	}
 	if from.Balance < t.Amount {

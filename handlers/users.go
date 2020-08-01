@@ -41,7 +41,7 @@ func extractUserDetails(userId int) (*UserDetails, error) {
 	if err := user.GetById(userId); err != nil {
 		return nil, fmt.Errorf("error retrieving user %v", err)
 	}
-	if err := wallet.GetWalletForUser(user.ID); err != nil {
+	if err := wallet.GetWalletForUser(int(user.ID)); err != nil {
 		return nil, fmt.Errorf("error retrieving wallet %v", err)
 	}
 	debits, err := getTransactionsForUser(wallet, true)

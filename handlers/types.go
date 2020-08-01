@@ -2,9 +2,8 @@ package handlers
 
 import "time"
 
-type CreateTransaction struct {
-	From    uint   `json:"from" binding:"required"`
-	To      uint   `json:"to" binding:"required"`
+type Transaction struct {
+	To      int32   `json:"mobile_number" binding:"required"`
 	Amount  int    `json:"amount" binding:"required"`
 	Message string `json:"message" binding:"required"`
 }
