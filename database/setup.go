@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"fundstransfer/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
@@ -14,7 +13,5 @@ func ConnectDatabase() {
 	if err != nil {
 		fmt.Errorf("failed to connect to database")
 	}
-
-	db.AutoMigrate(&models.User{})
 	DB = db
 }
