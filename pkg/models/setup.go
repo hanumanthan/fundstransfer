@@ -12,7 +12,7 @@ func CreateTables() {
 	DB.AutoMigrate(&User{}, &Transaction{}, &Wallet{}, &Credentials{})
 }
 
-func CreateUserAndWallet() {
+func SetupData() {
 	userWithWallets := []userWithWallet{
 		{
 			name:         "Athos",

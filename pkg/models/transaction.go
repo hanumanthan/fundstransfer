@@ -19,6 +19,14 @@ func (t *Transaction) Save() error {
 	return nil
 }
 
+func GetAllTransactions() ([]Transaction, error) {
+	var transactions []Transaction
+	if err := DB.Find(&transactions).Error; err != nil {
+		return nil, err
+	}
+	return transactions, nil
+}
+
 func GetTransactionsByAccount(accId uint, isSender bool) ([]Transaction, error) {
 	var query string
 	if isSender {

@@ -19,7 +19,7 @@ func Transact(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.String(http.StatusOK, "Transaction processed")
+	c.JSON(http.StatusOK, gin.H{"success": "Transaction processed."})
 }
 
 func (t *Transaction) CreateTransaction(userId int) error {
@@ -51,4 +51,12 @@ func (t *Transaction) CreateTransaction(userId int) error {
 		return fmt.Errorf("error updating wallet %v", err.Error())
 	}
 	return nil
+}
+
+func GetTransactions(c *gin.Context) {
+	transactions, err := models.GetAllTransactions()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+	}
+	c.JSON(http.StatusOK, gin.H{"transactions": &transactions})
 }

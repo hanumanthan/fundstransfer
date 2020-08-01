@@ -10,11 +10,9 @@ import (
 )
 
 func init() {
-	path := "payments.db"
-	_ = os.Remove(path)
 	models.ConnectDatabase()
 	models.CreateTables()
-	models.CreateUserAndWallet()
+	models.SetupData()
 }
 
 func registerRoutes(router *gin.Engine) {
@@ -39,6 +37,7 @@ func registerRoutes(router *gin.Engine) {
 	{
 		adminAuth.GET("/users", handlers.GetUsers)
 		adminAuth.GET("/wallets", handlers.GetWallets)
+		adminAuth.GET("/transactions", handlers.GetTransactions)
 
 	}
 }
@@ -47,6 +46,7 @@ func main() {
 	router := gin.Default()
 	registerRoutes(router)
 	if err := router.Run(); err != nil {
-		fmt.Println("Error starting up gin router")
+		fmt.Println("Error starting gin router")
+		os.Exit(1)
 	}
 }
