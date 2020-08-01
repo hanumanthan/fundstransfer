@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"fmt"
-	"fundstransfer/models"
+	"fundstransfer/pkg/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"

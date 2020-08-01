@@ -14,5 +14,3 @@ func (c *Credentials) GetApiKeyForUser(userId int) error {
 	}
 	return nil
 }
-
-

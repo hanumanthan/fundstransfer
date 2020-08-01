@@ -1,24 +1,21 @@
 package main
 
 import (
-	"fundstransfer/handlers"
-	"fundstransfer/models"
+	"fmt"
+	"fundstransfer/pkg/handlers"
+	"fundstransfer/pkg/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
 )
 
-func main() {
-	router := gin.Default()
+func init() {
 	path := "payments.db"
 	_ = os.Remove(path)
 	models.ConnectDatabase()
 	models.CreateTables()
 	models.CreateUserAndWallet()
-	registerRoutes(router)
-	_ = router.Run()
 }
-
 
 func registerRoutes(router *gin.Engine) {
 	router.GET("/", func(c *gin.Context) {
@@ -44,6 +41,12 @@ func registerRoutes(router *gin.Engine) {
 		adminAuth.GET("/wallets", handlers.GetWallets)
 
 	}
+}
 
-
+func main() {
+	router := gin.Default()
+	registerRoutes(router)
+	if err := router.Run(); err != nil {
+		fmt.Println("Error starting up gin router")
+	}
 }

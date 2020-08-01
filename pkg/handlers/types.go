@@ -3,7 +3,7 @@ package handlers
 import "time"
 
 type Transaction struct {
-	To      int32   `json:"mobile_number" binding:"required"`
+	To      int32  `json:"mobile_number" binding:"required"`
 	Amount  int    `json:"amount" binding:"required"`
 	Message string `json:"message" binding:"required"`
 }

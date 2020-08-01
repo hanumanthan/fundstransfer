@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"fmt"
-	"fundstransfer/models"
+	"fundstransfer/pkg/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -15,14 +15,6 @@ func GetUsers(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"users": &users})
-}
-
-func GetWallets(c *gin.Context) {
-	wallets, err := models.GetAllWallets()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-	}
-	c.JSON(http.StatusOK, gin.H{"wallets": &wallets})
 }
 
 func GetUserDetails(c *gin.Context) {
