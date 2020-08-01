@@ -29,8 +29,21 @@ func registerRoutes(router *gin.Engine) {
 		c.String(http.StatusOK, "success")
 	})
 
-	router.GET("/users", handlers.GetUsers)
-	router.GET("/wallets", handlers.GetWallets)
-	router.POST("/user/:user_id/transact", handlers.Transact)
-	router.GET("/user/:user_id", handlers.GetUserDetails)
+	userAuth := router.Group("/api/v1")
+	userAuth.Use(handlers.Authenticate("user"))
+	{
+		userAuth.POST("/user/:user_id/transact", handlers.Transact)
+		userAuth.GET("/user/:user_id", handlers.GetUserDetails)
+
+	}
+
+	adminAuth := router.Group("/admin")
+	adminAuth.Use(handlers.Authenticate("admin"))
+	{
+		adminAuth.GET("/users", handlers.GetUsers)
+		adminAuth.GET("/wallets", handlers.GetWallets)
+
+	}
+
+
 }

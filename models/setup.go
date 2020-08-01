@@ -5,10 +5,11 @@ type userWithWallet struct {
 	location     string
 	balance      int
 	mobileNumber int32
+	apiKey       string
 }
 
 func CreateTables() {
-	DB.AutoMigrate(&User{}, &Transaction{}, &Wallet{})
+	DB.AutoMigrate(&User{}, &Transaction{}, &Wallet{}, &Credentials{})
 }
 
 func CreateUserAndWallet() {
@@ -18,18 +19,26 @@ func CreateUserAndWallet() {
 			location:     "Milky Way",
 			balance:      100,
 			mobileNumber: 9999,
+			apiKey:       "abc@123",
 		},
 		{
 			name:         "Pothos",
 			location:     "Andromeda",
 			balance:      100,
 			mobileNumber: 8888,
+			apiKey:       "def@456",
 		},
 		{
 			name:         "Aramis",
 			location:     "Whirlpool",
 			balance:      100,
 			mobileNumber: 7777,
+			apiKey:       "ghi@789",
+		},
+		{
+			name:     "admin",
+			location: "Earth",
+			apiKey:   "admin@123",
 		},
 	}
 	for _, element := range userWithWallets {
@@ -38,11 +47,20 @@ func CreateUserAndWallet() {
 			Location: element.location,
 		}
 		DB.Create(user)
-		wallet := &Wallet{
-			Balance:      element.balance,
-			UserId:       user.ID,
-			MobileNumber: element.mobileNumber,
+
+		credentials := &Credentials{
+			UserId: user.ID,
+			ApiKey: element.apiKey,
 		}
-		DB.Create(wallet)
+		DB.Create(credentials)
+
+		if element.name != "admin" {
+			wallet := &Wallet{
+				Balance:      element.balance,
+				UserId:       user.ID,
+				MobileNumber: element.mobileNumber,
+			}
+			DB.Create(wallet)
+		}
 	}
 }

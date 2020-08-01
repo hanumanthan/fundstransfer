@@ -17,6 +17,13 @@ func (u *User) GetById(id int) error {
 	return nil
 }
 
+func (u *User) GetByName(name string) error {
+	if err := DB.Where("name = ?", name).First(&u).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
 func GetAllUsers() ([]User, error) {
 	var users []User
 	if err := DB.Find(&users).Error; err != nil {
