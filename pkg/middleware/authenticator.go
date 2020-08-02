@@ -1,7 +1,9 @@
-package handlers
+package middleware
 
 import (
 	"fmt"
+	"fundstransfer/pkg/logger"
+	"fundstransfer/pkg/metrics"
 	"fundstransfer/pkg/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -15,12 +17,16 @@ func Authenticate(apiType string) gin.HandlerFunc {
 		case "user":
 			userId, _ := strconv.Atoi(c.Param("user_id"))
 			if err := validateApiKeyForUser(userId, apiKey); err != nil {
+				logger.ERRORLOG.Println(fmt.Sprintf("Invalid api key for user %d", userId))
+				metrics.CaptureErrorMetrics(http.StatusForbidden)
 				c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
 				c.Abort()
 				return
 			}
 		case "admin":
 			if err := validateApiKeyForAdmin(apiKey); err != nil {
+				logger.ERRORLOG.Println("Invalid api key for admin user")
+				metrics.CaptureErrorMetrics(http.StatusForbidden)
 				c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
 				c.Abort()
 				return

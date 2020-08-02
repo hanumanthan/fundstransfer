@@ -1,5 +1,7 @@
 package models
 
+import "fundstransfer/pkg/logger"
+
 type userWithWallet struct {
 	name         string
 	location     string
@@ -13,6 +15,7 @@ func CreateTables() {
 }
 
 func SetupData() {
+	logger.INFOLOG.Println("Setting up data")
 	userWithWallets := []userWithWallet{
 		{
 			name:         "Athos",

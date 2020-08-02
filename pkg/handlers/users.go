@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"fmt"
+	"fundstransfer/pkg/logger"
+	"fundstransfer/pkg/metrics"
 	"fundstransfer/pkg/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -11,6 +13,7 @@ import (
 func GetUsers(c *gin.Context) {
 	users, err := models.GetAllUsers()
 	if err != nil {
+		metrics.CaptureErrorMetrics(http.StatusInternalServerError)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
@@ -21,6 +24,7 @@ func GetUserDetails(c *gin.Context) {
 	userId, _ := strconv.Atoi(c.Param("user_id"))
 	userDetails, err := extractUserDetails(userId)
 	if err != nil {
+		metrics.CaptureErrorMetrics(http.StatusInternalServerError)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -31,18 +35,22 @@ func extractUserDetails(userId int) (*UserDetails, error) {
 	var user models.User
 	var wallet models.Wallet
 	if err := user.GetById(userId); err != nil {
+		logger.ERRORLOG.Println(fmt.Sprintf("error retrieving user for id %d error %v", userId, err))
 		return nil, fmt.Errorf("error retrieving user %v", err)
 	}
 	if err := wallet.GetWalletForUser(int(user.ID)); err != nil {
+		logger.ERRORLOG.Println(fmt.Sprintf("error retrieving wallet for user %d %v", userId, err))
 		return nil, fmt.Errorf("error retrieving wallet %v", err)
 	}
 	debits, err := getTransactionsForUser(wallet, true)
 	if err != nil {
+		logger.ERRORLOG.Println(fmt.Sprintf("error retrieving transactions for wallet %d %v", wallet.ID, err))
 		return nil, fmt.Errorf("error retrieving debits %v", err)
 	}
 
 	credits, err := getTransactionsForUser(wallet, false)
 	if err != nil {
+		logger.ERRORLOG.Println(fmt.Sprintf("error retrieving transactions for wallet %d %v", wallet.ID, err))
 		return nil, fmt.Errorf("error retrieving credits %v", err)
 	}
 

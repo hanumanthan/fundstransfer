@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"fundstransfer/pkg/handlers"
+	"fundstransfer/pkg/logger"
+	"fundstransfer/pkg/metrics"
+	"fundstransfer/pkg/middleware"
 	"fundstransfer/pkg/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -10,6 +13,7 @@ import (
 )
 
 func init() {
+	logger.InitializeLogger()
 	models.ConnectDatabase()
 	models.CreateTables()
 	models.SetupData()
@@ -17,15 +21,16 @@ func init() {
 
 func registerRoutes(router *gin.Engine) {
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"data": "Welcome to wallet funds transfer"})
+		c.JSON(http.StatusOK, "Welcome to wallet funds transfer")
 	})
 
 	router.GET("/liveness/healthcheck", func(c *gin.Context) {
 		c.String(http.StatusOK, "success")
 	})
+	router.GET("/metrics", metrics.GetResponseMetrics)
 
 	userAuth := router.Group("/api/v1")
-	userAuth.Use(handlers.Authenticate("user"))
+	userAuth.Use(metrics.ResponseMetrics(), middleware.Authenticate("user"))
 	{
 		userAuth.POST("/user/:user_id/transact", handlers.Transact)
 		userAuth.GET("/user/:user_id", handlers.GetUserDetails)
@@ -33,7 +38,7 @@ func registerRoutes(router *gin.Engine) {
 	}
 
 	adminAuth := router.Group("/admin")
-	adminAuth.Use(handlers.Authenticate("admin"))
+	adminAuth.Use(middleware.Authenticate("admin"))
 	{
 		adminAuth.GET("/users", handlers.GetUsers)
 		adminAuth.GET("/wallets", handlers.GetWallets)
