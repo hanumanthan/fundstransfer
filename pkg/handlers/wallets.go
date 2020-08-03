@@ -11,5 +11,5 @@ func GetWallets(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 	}
-	c.JSON(http.StatusOK, gin.H{"wallets": &wallets})
+	c.JSON(http.StatusOK, &Wallets{Wallets:wallets})
 }

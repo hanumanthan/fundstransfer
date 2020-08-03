@@ -21,5 +21,5 @@ func TestGetWallets(t *testing.T) {
 	testRouter.ServeHTTP(w, req)
 
 	assert.Equal(t, 200, w.Code)
-	assert.Equal(t, `{"wallets":[{"ID":1,"Balance":100,"UserId":1,"MobileNumber":1234}]}`, w.Body.String())
+	assert.Equal(t, `{"wallets":[{"id":1,"balance":100,"user_id":1,"mobile_number":1234}]}`, w.Body.String())
 }

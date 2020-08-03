@@ -28,7 +28,7 @@ func GetUserDetails(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"users": userDetails})
+	c.JSON(http.StatusOK, &UserInfo{UserDetails:*userDetails})
 }
 
 func extractUserDetails(userId int) (*UserDetails, error) {
