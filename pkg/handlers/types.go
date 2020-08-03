@@ -1,11 +1,18 @@
 package handlers
 
-import "time"
+import (
+	"fundstransfer/pkg/models"
+	"time"
+)
 
 type Transaction struct {
 	To      int32  `json:"mobile_number" binding:"required"`
 	Amount  int    `json:"amount" binding:"required"`
 	Message string `json:"message" binding:"required"`
+}
+
+type Transactions struct {
+	Transactions []models.Transaction `json:"transactions"`
 }
 
 type UserDetails struct {
@@ -21,4 +28,12 @@ type TransactionDetails struct {
 	Message      string    `json:"message"`
 	Amount       int       `json:"amount"`
 	Date         time.Time `json:"transaction_time"`
+}
+
+type Users struct {
+	Users []models.User `json:"users"`
+}
+
+type UserInfo struct {
+	UserDetails UserDetails `json:"user_details"`
 }
