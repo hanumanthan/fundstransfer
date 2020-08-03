@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 func Transact(c *gin.Context) {
@@ -45,6 +46,7 @@ func (t *Transaction) CreateTransaction(userId int) error {
 		FromWallet: from.ID,
 		ToWallet:   to.ID,
 		Amount:     t.Amount,
+		CreatedAt: time.Now(),
 		Message:    t.Message}
 
 	from.Balance -= t.Amount

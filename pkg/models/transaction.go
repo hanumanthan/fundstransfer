@@ -1,11 +1,12 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type Transaction struct {
-	gorm.Model
+	ID        uint `gorm:"primary_key"`
+	CreatedAt time.Time
 	FromWallet uint
 	ToWallet   uint
 	Amount     int

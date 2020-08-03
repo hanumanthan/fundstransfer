@@ -1,11 +1,7 @@
 package models
 
-import (
-	"github.com/jinzhu/gorm"
-)
-
 type Wallet struct {
-	gorm.Model
+	ID        uint `gorm:"primary_key"`
 	Balance      int
 	UserId       uint
 	MobileNumber int32

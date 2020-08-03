@@ -1,9 +1,7 @@
 package models
 
-import "github.com/jinzhu/gorm"
-
 type Credentials struct {
-	gorm.Model
+	ID        uint `gorm:"primary_key"`
 	UserId uint
 	ApiKey string
 }
