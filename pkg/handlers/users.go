@@ -35,22 +35,22 @@ func extractUserDetails(userId int) (*UserDetails, error) {
 	var user models.User
 	var wallet models.Wallet
 	if err := user.GetById(userId); err != nil {
-		logger.ERRORLOG.Println(fmt.Sprintf("error retrieving user for id %d error %v", userId, err))
+		logger.ERROR.Println(fmt.Sprintf("error retrieving user for id %d error %v", userId, err))
 		return nil, fmt.Errorf("error retrieving user %v", err)
 	}
 	if err := wallet.GetWalletForUser(int(user.ID)); err != nil {
-		logger.ERRORLOG.Println(fmt.Sprintf("error retrieving wallet for user %d %v", userId, err))
+		logger.ERROR.Println(fmt.Sprintf("error retrieving wallet for user %d %v", userId, err))
 		return nil, fmt.Errorf("error retrieving wallet %v", err)
 	}
 	debits, err := getTransactionsForUser(wallet, true)
 	if err != nil {
-		logger.ERRORLOG.Println(fmt.Sprintf("error retrieving transactions for wallet %d %v", wallet.ID, err))
+		logger.ERROR.Println(fmt.Sprintf("error retrieving transactions for wallet %d %v", wallet.ID, err))
 		return nil, fmt.Errorf("error retrieving debits %v", err)
 	}
 
 	credits, err := getTransactionsForUser(wallet, false)
 	if err != nil {
-		logger.ERRORLOG.Println(fmt.Sprintf("error retrieving transactions for wallet %d %v", wallet.ID, err))
+		logger.ERROR.Println(fmt.Sprintf("error retrieving transactions for wallet %d %v", wallet.ID, err))
 		return nil, fmt.Errorf("error retrieving credits %v", err)
 	}
 

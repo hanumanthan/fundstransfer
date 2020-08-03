@@ -5,12 +5,12 @@ import (
 )
 
 type Transaction struct {
-	ID        uint `gorm:"primary_key"`
-	CreatedAt time.Time
-	FromWallet uint
-	ToWallet   uint
-	Amount     int
-	Message    string
+	ID         uint      `gorm:"primary_key" json:"id"`
+	CreatedAt  time.Time `json:"created_at"`
+	FromWallet uint      `json:"from_wallet"`
+	ToWallet   uint      `json:"to_wallet"`
+	Amount     int       `json:"amount"`
+	Message    string    `json:"message"`
 }
 
 func (t *Transaction) Save() error {

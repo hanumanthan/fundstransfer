@@ -17,7 +17,7 @@ func Authenticate(apiType string) gin.HandlerFunc {
 		case "user":
 			userId, _ := strconv.Atoi(c.Param("user_id"))
 			if err := validateApiKeyForUser(userId, apiKey); err != nil {
-				logger.ERRORLOG.Println(fmt.Sprintf("Invalid api key for user %d", userId))
+				logger.ERROR.Println(fmt.Sprintf("Invalid api key for user %d", userId))
 				metrics.CaptureErrorMetrics(http.StatusForbidden)
 				c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
 				c.Abort()
@@ -25,7 +25,7 @@ func Authenticate(apiType string) gin.HandlerFunc {
 			}
 		case "admin":
 			if err := validateApiKeyForAdmin(apiKey); err != nil {
-				logger.ERRORLOG.Println("Invalid api key for admin user")
+				logger.ERROR.Println("Invalid api key for admin user")
 				metrics.CaptureErrorMetrics(http.StatusForbidden)
 				c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
 				c.Abort()

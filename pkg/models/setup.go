@@ -15,7 +15,7 @@ func CreateTables() {
 }
 
 func SetupData() {
-	logger.INFOLOG.Println("Setting up data")
+	logger.INFO.Println("Setting up data")
 	userWithWallets := []userWithWallet{
 		{
 			name:         "Athos",

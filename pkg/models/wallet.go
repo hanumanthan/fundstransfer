@@ -1,10 +1,10 @@
 package models
 
 type Wallet struct {
-	ID        uint `gorm:"primary_key"`
-	Balance      int
-	UserId       uint
-	MobileNumber int32
+	ID           uint  `gorm:"primary_key" json:"id"`
+	Balance      int   `json:"balance"`
+	UserId       uint  `json:"user_id"`
+	MobileNumber int32 `json:"mobile_number"`
 }
 
 func (w *Wallet) GetWalletForMobileNumber(mobileNumber int32) error {

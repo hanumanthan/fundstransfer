@@ -1,7 +1,7 @@
 package models
 
 type Credentials struct {
-	ID        uint `gorm:"primary_key"`
+	ID     uint `gorm:"primary_key"`
 	UserId uint
 	ApiKey string
 }
