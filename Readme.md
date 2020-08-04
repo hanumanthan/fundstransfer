@@ -41,6 +41,7 @@ To execute the tests
 8. As the app heavily relies on SQL operations, integration tests have been written to have better coverage. Unit tests wont be effective as most of the code will get mocked.
 9. Gorm and Gin errors are handled but they are not translated to user errors. 
 10. api_key for each user can be found in [file](pkg/models/setup.go)
+11. For api documentation - screenshots have been provided
 
 ## Initial Data
 Data setup is done via this [file](pkg/models/setup.go)
