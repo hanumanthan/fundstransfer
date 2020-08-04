@@ -48,27 +48,21 @@ Data setup is done via this [file](pkg/models/setup.go)
 ## API documentation
 1. `http://localhost:8080/liveness/healthcheck` - returns a 200 if the app is working and hasnt suffered by deadlocks or panics
 2. `http://localhost:8080/metrics` - Provides metrics like the error counts and response times for the user apis
+[Metrics](screenshots/metrics.png)
 3. Admin apis - 
 Admin apis needs `api_key` to be passed via header.
-Header
-
+Header - [header](screenshots/header.png)
     1. `http://localhost:8080/admin/users`  - Gets all users in the system
     2. `http://localhost:8080/admin/wallets`  - Gets all wallets in the system
     3. `http://localhost:8080/admin/transactions`  - Gets all transactions in the system
 4. User apis - 
 User apis needs `api_key` for the corresponding user to be passed via header.
-Header
-
+Header - [header](screenshots/header.png)
     1. `http://localhost:8080/api/v1/user/:user_id/transact`  - To transfer money from one user to another user
-    Post body
+    [Post body](screenshots/transact-post-body.png)
     2. `http://localhost:8080/api/v1/user/:user_id`  - To get the user details like name, balance along with credit and debit transactions
-    
-    
+    [Response](screenshots/user_details_response.png)
 
 ## Killer feature
 1. For every $100 transferred by a user, user gets a scratch card valued between $1-$20 added as cashback to users wallet
 2. For every $50 transferred by user, user gets 10% discount for the next cab ride if paid using the wallet
-
-### TODO
-1. Add random delay
-2. Killer feature
