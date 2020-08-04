@@ -10,6 +10,7 @@ import (
 	"strconv"
 )
 
+// Get all the users in the system
 func GetUsers(c *gin.Context) {
 	users, err := models.GetAllUsers()
 	if err != nil {
@@ -20,6 +21,7 @@ func GetUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"users": &users})
 }
 
+// Gets the details of the user along with the credit and debit transactions
 func GetUserDetails(c *gin.Context) {
 	userId, _ := strconv.Atoi(c.Param("user_id"))
 	userDetails, err := extractUserDetails(userId)

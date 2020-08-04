@@ -8,6 +8,7 @@ import (
 
 var DB *gorm.DB
 
+// Creates the DB and connects to it
 func ConnectDatabase() {
 	db, err := gorm.Open("sqlite3", "payments.db")
 	if err != nil {

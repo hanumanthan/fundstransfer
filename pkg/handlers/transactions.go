@@ -11,7 +11,9 @@ import (
 	"strconv"
 	"time"
 )
-
+// Transact - Extracts the wallet of destination mobile number and
+// transfers money from users wallet to destination wallet
+// Error validation for wallets and balance
 func Transact(c *gin.Context) {
 	var t Transaction
 	var from, to models.Wallet
@@ -79,6 +81,7 @@ func (t *Transaction) CreateTransaction(from, to models.Wallet) error {
 	return nil
 }
 
+// Gets all the transaction in the system
 func GetTransactions(c *gin.Context) {
 	transactions, err := models.GetAllTransactions()
 	if err != nil {

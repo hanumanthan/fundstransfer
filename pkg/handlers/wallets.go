@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// Get all wallets in the system
 func GetWallets(c *gin.Context) {
 	wallets, err := models.GetAllWallets()
 	if err != nil {
